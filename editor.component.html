@@ -1,0 +1,13 @@
+<h3> {{title}} </h3>
+
+<h2>{{hero.name}} Details</h2>
+
+<div> <h5> id: {{hero.id}} </h5> </div>
+<div> <h5> name: {{hero.name}} </h5> </div>
+<div> <h5> place: {{hero.place | uppercase}} </h5> </div>
+
+<input type="text" [(ngModel)]="hero.twoWayBindText">
+
+<h5> {{hero.twoWayBindText}} </h5>
+
+<app-input-output></app-input-output>

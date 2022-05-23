@@ -1,0 +1,182 @@
+<!-- to create angular project ->-- ng new project_name 
+    package.json - all node dependencies ->-- name of the project, scripts : where terminal commands are present that we use to run our application, dependencies and devDependencies 
+    angular.json - all project related configurations  
+    e2e folder - end to end testing
+    node modules - contains all services, packages and modules
+
+    app.module.ts - contains the list of components, modules and services used inside a project
+    inside @ngModule decorator :
+    1. declarations - where components are declared inside
+    2. imports - where modules are declared
+    3. providers - services are declared.
+
+    Compoenents - created as ->-- ng g c component_name --routing(optional : adds routing.ts and routing.spec.ts files)
+                  when a component is created, angular cli declares this component at declarations inside a module file.
+
+    Data binding - communication between an html and a ts file..to html variable with ts file
+
+    Types of Data binding :
+    1. One way data binding
+    2. Two way data binding
+
+    One way data binding - binding in one direction : component to view or view to component..binding html attdibute to ts data
+    
+    Types of One way data binding :
+    1. String interpolation -> {{data}} ->-- from ts to html
+    2. Property binding -> [property]='data' ->-- from ts to html -> here we also bind attributes of html tags.
+    3. Event binding -> (event)="expression" ->-- from html to ts.. when event occurs at UI side, the change occurs through html to ts component.
+   
+    Two way data binding ->-- both direction binding
+    [(ngModel)]="data"
+    -->
+
+<!-- String interpolation -->
+<p>
+  Hello {{ name }}  
+  <!-- Basic interpolation -->
+</p>
+
+<p>
+  This is {{ myFirst() }}
+  <!-- method interpolation -->
+</p>
+
+<p>
+  This is {{myFirst().toUpperCase()}}
+  <!-- we can add javascript methods  -->
+</p>
+
+<p>
+  This is {{myFirst().toLowerCase()}}
+</p>
+
+<h5>
+  Network status : {{networkStatus==0 ? 'offline' : 'online'}}
+  <!-- conditionally printing through ternary operator -->
+</h5>
+
+<h5>
+  Network status : {{networkStatusssss==0 ? 'offline' : 'online'}}
+  <!-- here, there is no networkStatusssss variable in ts file, so the output will be 'online' -->
+</h5>
+
+<!-- One way Data binding -->
+<!-- Property binding ->-- binding ts data to html -->
+<!-- syntax : [property / attribute_name]='data' -->
+<input type="text" name="" id="" [value]="placeName">
+<br>
+<!-- Template reference -> giving reference of html tag to another tag..  -->
+<!-- syntax : #var_name -->
+<input type="text"  #tempRef name="" id="" bind-value="placeName">
+<br>
+<button (click)="getInputData(tempRef)">Okay</button>
+
+ <br><br>
+
+ <!--Event binding ->-- binds only events like onclick,onMouseOver, onMouseDown,etc .. $event contains all the properties of a particular event; here we are using $event to get the property 'value' of an html tag -->
+<!-- syntax : (event_name)='data' -->
+ <button (click)="onAddToCart()">Add to cart</button>
+<br><br>
+<p>{{message}}</p>
+
+<button value="Sony" (click)="onAddToCart1($event)">Sony</button>
+<button value="JBL" (click)="onAddToCart1($event)">JBL</button>
+<button value="Bose" (click)="onAddToCart1($event)">Bose</button>
+
+<h5>{{message1}}</h5>
+
+<!-- two way binding ->-- binding from component to view as well as view to component at the same time -->
+<!-- syntax: [(ngModel)]='ts_data' -->
+<!-- flow: the data will go from user view to component ts file, there the value of userName variable will change and will return to html and display the value -->
+<!-- note: to use ngModel, we have to import FormsModule in a module-->
+<input type="text" [(ngModel)]="userName">
+
+<p> {{userName}} </p>
+
+
+<!-- Directives ->-- used for change dom's (Document Object Model) behaviour and appearance -->
+<!-- Types of directives:--
+  1. Component directives  ->-- inside components @component containing its selector,templateURL and styleURL
+  2. Structural directives ->-- ngIf, ngFor, ngSwitch
+  3. Attribute directives  ->-- ngClass and ngStyle
+-->
+
+<!-- ngIf -> prints div when its condition is true, else is written by giving template reference to ngif & enclosing else block inside ng-template -->
+<!-- if condition is true , 'then' block is executed ,or 'else' block is executed -->
+<button (click)="makeItTrue()" >
+  makeItTrue
+</button>
+<br>
+<h5 *ngIf="valuePrint;then ifBlock else elseBlock">Print ngIf</h5>
+
+<ng-template #ifBlock>
+  <h5>print then of ngIf</h5>
+</ng-template>
+
+<ng-template #elseBlock>
+  <h5>print else of ngIf</h5>
+</ng-template>
+
+<!-- ngSwitch -->
+<!-- syntax: 
+  <div [ngSwitch]='variable_in_which_value_is_to_be_checked'>
+    <h5 *ngSwitchCase = 'case1'></h5>
+    <h5 *ngSwitchCase = 'case2'></h5>
+    <h5 *ngSwitchCase = 'case3'></h5>
+  </div>
+-->
+<!-- in this eg. on selecting the product, its respective value gets stored inside a ts variable through getProductValue and gets printed below with h5 tag-->
+<select class="products" (change)="getProductValue($event)">
+  <option value="default">Select product</option>
+  <option value="TV">TV</option>
+  <option value="mob">Mobile</option>
+  <option value="lap">Laptop</option>
+</select>
+
+<div [ngSwitch]="productValue">
+  <h5 *ngSwitchDefault>Please select product</h5>
+  <h5 *ngSwitchCase="'TV'">TV</h5>
+  <h5 *ngSwitchCase="'mob'">Mobile</h5>
+  <h5 *ngSwitchCase="'lap'">Laptop</h5>
+</div>
+
+<!-- ngFor -->
+<div>
+  <h4>List of products</h4>
+  <table >
+    <thead>
+      <td>Sr.no</td>
+      <td>Product</td>
+      <td>Price</td>
+    </thead>
+    <tr *ngFor="let pro of products;index as i">
+      <td> {{i+1}} </td>
+      <td> {{pro.product}} </td>
+      <td> {{pro.price}} </td>
+    </tr>
+  </table>
+</div>
+
+<!-- 
+  index as i -> starts index with 0
+  first as i -> prints first value as true and remianing as false
+  last as i -> prints last value as true and remianing as false
+  odd as i -> prints odd values true
+  even as i -> prints even values true
+-->
+
+<!-- @Input() decorator is used for sending data from parent to child -->
+<h5>Example of @Input --> {{inputEg}} </h5>
+
+<!-- @Output() decorator is used for sending data from child to parent
+  1. declare a varibale as an event emitter ->-- @Output() var_name = new EventEmitter<string>();
+  2. emit data ->-- emitter_var_name.emit(variabel_to_be_emitted)
+  3. in parent component inside child's selector, declare event binding to a function and and var_name = event inside ts
+-->
+
+<app-input-output (property)="parentFunction($event)"></app-input-output>
+{{property}}
+
+<!-- Services are just reusable ts class files that can used in any required components
+Advantage : suppose we need a particular service(eg.newspaper letter) for a 100 components, then without rewriting the same method in all the components, we can simply subscribe that service to all components.
+-->
